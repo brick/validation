@@ -12,19 +12,19 @@ use Brick\Validation\AbstractValidator;
 class LengthValidator extends AbstractValidator
 {
     /**
-     * @var integer|null
+     * @var int|null
      */
     private $minLength = null;
 
     /**
-     * @var integer|null
+     * @var int|null
      */
     private $maxLength = null;
 
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.length.too-short' => 'The string is too short.',
@@ -35,7 +35,7 @@ class LengthValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         $length = strlen($value);
 
@@ -49,13 +49,13 @@ class LengthValidator extends AbstractValidator
     /**
      * Sets a minimum length.
      *
-     * @param integer $minLength
+     * @param int $minLength
      *
-     * @return static
+     * @return LengthValidator
      */
-    public function setMinLength($minLength)
+    public function setMinLength(int $minLength) : self
     {
-        $this->minLength = (int) $minLength;
+        $this->minLength = $minLength;
 
         return $this;
     }
@@ -63,13 +63,13 @@ class LengthValidator extends AbstractValidator
     /**
      * Sets a maximum length.
      *
-     * @param integer $maxLength
+     * @param int $maxLength
      *
-     * @return static
+     * @return LengthValidator
      */
-    public function setMaxLength($maxLength)
+    public function setMaxLength(int $maxLength) : self
     {
-        $this->maxLength = (int) $maxLength;
+        $this->maxLength = $maxLength;
 
         return $this;
     }
@@ -77,14 +77,12 @@ class LengthValidator extends AbstractValidator
     /**
      * Sets an exact length.
      *
-     * @param integer $length
+     * @param int $length
      *
-     * @return static
+     * @return LengthValidator
      */
-    public function setLength($length)
+    public function setLength(int $length) : self
     {
-        $length = (int) $length;
-
         $this->minLength = $length;
         $this->maxLength = $length;
 

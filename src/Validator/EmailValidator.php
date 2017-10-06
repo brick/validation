@@ -22,7 +22,7 @@ class EmailValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.email.invalid' => 'Invalid email address.'
@@ -32,7 +32,7 @@ class EmailValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         $regexp = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 

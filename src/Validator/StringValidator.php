@@ -10,12 +10,12 @@ use Brick\Validation\AbstractValidator;
 class StringValidator extends AbstractValidator
 {
     /**
-     * @var integer
+     * @var int
      */
     private $minLength;
 
     /**
-     * @var integer
+     * @var int
      */
     private $maxLength;
 
@@ -23,16 +23,16 @@ class StringValidator extends AbstractValidator
      * @param int $minLength The minimum string length, or zero for no minimum.
      * @param int $maxLength The maximum string length, or zero for no maximum.
      */
-    public function __construct($minLength = 0, $maxLength = 0)
+    public function __construct(int $minLength = 0, int $maxLength = 0)
     {
-        $this->minLength = (int) $minLength;
-        $this->maxLength = (int) $maxLength;
+        $this->minLength = $minLength;
+        $this->maxLength = $maxLength;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.string.encoding'  => 'The string is not valid UTF-8.',
@@ -44,7 +44,7 @@ class StringValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         if (! mb_check_encoding($value, 'UTF-8')) {
             $this->addFailureMessage('validator.string.encoding');

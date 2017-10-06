@@ -14,7 +14,7 @@ class UrlValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.url.invalid' => 'Invalid URL.'
@@ -24,7 +24,7 @@ class UrlValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         $parts = parse_url($value);
 

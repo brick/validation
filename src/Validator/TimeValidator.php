@@ -12,7 +12,7 @@ class TimeValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.time.invalid-format' => 'The time format is not valid.',
@@ -23,7 +23,7 @@ class TimeValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         if (preg_match('/^([0-9]{2})\:([0-9]{2})(?:\:([0-9]{2}))?$/', $value, $matches) == 0) {
             $this->addFailureMessage('validator.time.invalid-format');

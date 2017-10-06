@@ -17,7 +17,7 @@ class ForbiddenCharsValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.forbidden-chars' => 'Invalid characters in the string.'
@@ -29,15 +29,15 @@ class ForbiddenCharsValidator extends AbstractValidator
      *
      * @param string $forbiddenChars A string containing all forbidden characters.
      */
-    public function __construct($forbiddenChars)
+    public function __construct(string $forbiddenChars)
     {
-        $this->forbiddenChars = (string) $forbiddenChars;
+        $this->forbiddenChars = $forbiddenChars;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         $regexp = '/[' . preg_quote($this->forbiddenChars, '/') . ']/';
 

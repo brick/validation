@@ -17,7 +17,7 @@ class PatternValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.pattern.no-match' => 'The string does not match the given pattern.'
@@ -29,7 +29,7 @@ class PatternValidator extends AbstractValidator
      *
      * @param string $pattern
      */
-    public function __construct($pattern)
+    public function __construct(string $pattern)
     {
         $this->pattern = '/^(?:' . str_replace('/', '\/', $pattern) . ')$/';
     }
@@ -37,7 +37,7 @@ class PatternValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         if (preg_match($this->pattern, $value) == 0) {
             $this->addFailureMessage('validator.pattern.no-match');

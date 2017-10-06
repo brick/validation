@@ -13,7 +13,7 @@ class ImeiValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.imei.invalid' => 'Invalid IMEI number.'
@@ -23,7 +23,7 @@ class ImeiValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         if (! Luhn::isValid($value) || strlen($value) != 15) {
             $this->addFailureMessage('validator.imei.invalid');

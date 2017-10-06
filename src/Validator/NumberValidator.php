@@ -30,7 +30,7 @@ class NumberValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.number.invalid' => 'The number is not valid.',
@@ -43,7 +43,7 @@ class NumberValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         try {
             $value = BigDecimal::of($value);
@@ -68,11 +68,11 @@ class NumberValidator extends AbstractValidator
     /**
      * @param number|string|null $min The minimum value, or null to remove it.
      *
-     * @return static
+     * @return NumberValidator
      *
      * @throws \InvalidArgumentException If not a valid number.
      */
-    public function setMin($min)
+    public function setMin($min) : self
     {
         if ($min !== null) {
             $min = BigDecimal::of($min);
@@ -86,11 +86,11 @@ class NumberValidator extends AbstractValidator
     /**
      * @param number|string|null $max The maximum value, or null to remove it.
      *
-     * @return static
+     * @return NumberValidator
      *
      * @throws \InvalidArgumentException If not a valid number.
      */
-    public function setMax($max)
+    public function setMax($max) : self
     {
         if ($max !== null) {
             $max = BigDecimal::of($max);
@@ -104,11 +104,11 @@ class NumberValidator extends AbstractValidator
     /**
      * @param number|string|null $step The step, or null to remove it.
      *
-     * @return static
+     * @return NumberValidator
      *
      * @throws \InvalidArgumentException If the step is not a valid number or not positive.
      */
-    public function setStep($step)
+    public function setStep($step) : self
     {
         if ($step !== null) {
             $step = BigDecimal::of($step);

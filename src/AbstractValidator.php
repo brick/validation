@@ -17,7 +17,7 @@ abstract class AbstractValidator implements Validator
     /**
      * {@inheritdoc}
      */
-    final public function isValid($value)
+    final public function isValid(string $value) : bool
     {
         $this->failureMessages = [];
         $this->validate($value);
@@ -28,7 +28,7 @@ abstract class AbstractValidator implements Validator
     /**
      * {@inheritdoc}
      */
-    final public function getFailureMessages()
+    final public function getFailureMessages() : array
     {
         return $this->failureMessages;
     }
@@ -42,7 +42,7 @@ abstract class AbstractValidator implements Validator
      *
      * @throws \RuntimeException If the message key is unknown.
      */
-    final protected function addFailureMessage($messageKey)
+    final protected function addFailureMessage(string $messageKey) : void
     {
         $messages = $this->getPossibleMessages();
 
@@ -62,5 +62,5 @@ abstract class AbstractValidator implements Validator
      *
      * @return void
      */
-    abstract protected function validate($value);
+    abstract protected function validate(string $value) : void;
 }

@@ -12,9 +12,9 @@ interface Validator
      *
      * @param string $value The value to validate.
      *
-     * @return boolean `true` if the value is valid, `false` otherwise.
+     * @return bool `true` if the value is valid, `false` otherwise.
      */
-    public function isValid($value);
+    public function isValid(string $value) : bool;
 
     /**
      * Returns the failure messages from the last validation.
@@ -23,7 +23,7 @@ interface Validator
      *
      * @return array The last failure messages.
      */
-    public function getFailureMessages();
+    public function getFailureMessages() : array;
 
     /**
      * Returns all possible failure messages for this validator.
@@ -32,5 +32,5 @@ interface Validator
      *
      * @return array
      */
-    public function getPossibleMessages();
+    public function getPossibleMessages() : array;
 }

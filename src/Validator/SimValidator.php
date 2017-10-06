@@ -40,7 +40,7 @@ class SimValidator extends AbstractValidator
      *
      * @param bool|null $hasCheckDigit Whether the number to validate has a check digit, or null if unknown.
      */
-    public function __construct($hasCheckDigit = null)
+    public function __construct(bool $hasCheckDigit = null)
     {
         $this->hasCheckDigit = $hasCheckDigit;
     }
@@ -48,7 +48,7 @@ class SimValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.sim.invalid' => 'Invalid SIM card number.'
@@ -58,7 +58,7 @@ class SimValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         $length = strlen($value);
 

@@ -12,7 +12,7 @@ class DigitValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    public function getPossibleMessages()
+    public function getPossibleMessages() : array
     {
         return [
             'validator.digit.invalid' => 'All characters must be digits.'
@@ -22,7 +22,7 @@ class DigitValidator extends AbstractValidator
     /**
      * {@inheritdoc}
      */
-    protected function validate($value)
+    protected function validate(string $value) : void
     {
         if (! ctype_digit($value)) {
             $this->addFailureMessage('validator.digit.invalid');
