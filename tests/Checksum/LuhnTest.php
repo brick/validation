@@ -2,7 +2,7 @@
 
 namespace Brick\Tests\Checksum;
 
-use Brick\Checksum\Luhn;
+use Brick\Validation\Internal\Luhn;
 
 use PHPUnit\Framework\TestCase;
 

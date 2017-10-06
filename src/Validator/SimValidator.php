@@ -3,7 +3,7 @@
 namespace Brick\Validation\Validator;
 
 use Brick\Validation\AbstractValidator;
-use Brick\Checksum\Luhn;
+use Brick\Validation\Internal\Luhn;
 
 /**
  * Validates a SIM card number (ICCID).

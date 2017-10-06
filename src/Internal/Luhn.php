@@ -1,9 +1,11 @@
 <?php
 
-namespace Brick\Checksum;
+namespace Brick\Validation\Internal;
 
 /**
  * Luhn algorithm calculations.
+ *
+ * @internal
  */
 class Luhn
 {
