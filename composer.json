@@ -1,0 +1,24 @@
+{
+  "name": "brick/validation",
+  "description": "Validation library",
+  "type": "library",
+  "keywords": [
+    "Brick",
+    "Validation",
+    "Validator"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.*",
+    "satooshi/php-coveralls": "1.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Brick\\Validation\\": "src/",
+      "Brick\\Validation\\Tests\\": "tests/"
+    }
+  }
+}
