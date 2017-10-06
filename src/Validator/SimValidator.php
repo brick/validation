@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Validation\Validator;
 
 use Brick\Validation\AbstractValidator;
