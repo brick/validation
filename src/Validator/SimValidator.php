@@ -73,7 +73,7 @@ class SimValidator extends AbstractValidator
             return;
         }
 
-        if ($this->hasCheckDigit === true || $length == 20) {
+        if ($this->hasCheckDigit === true || $length === 20) {
             if (Luhn::isValid($value)) {
                 return;
             }

@@ -38,7 +38,7 @@ class EmailValidator extends AbstractValidator
     {
         $regexp = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 
-        if (preg_match($regexp, $value) == 0) {
+        if (preg_match($regexp, $value) === 0) {
             $this->addFailureMessage('validator.email.invalid');
         }
     }

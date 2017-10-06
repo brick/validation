@@ -27,7 +27,7 @@ class TimeValidator extends AbstractValidator
      */
     protected function validate(string $value) : void
     {
-        if (preg_match('/^([0-9]{2})\:([0-9]{2})(?:\:([0-9]{2}))?$/', $value, $matches) == 0) {
+        if (preg_match('/^([0-9]{2})\:([0-9]{2})(?:\:([0-9]{2}))?$/', $value, $matches) === 0) {
             $this->addFailureMessage('validator.time.invalid-format');
         } else {
             if ($matches[1] > 23 || $matches[2] > 59 || (isset($matches[3]) && $matches[3] > 59)) {

@@ -27,7 +27,7 @@ class DateValidator extends AbstractValidator
      */
     protected function validate(string $value) : void
     {
-        if (preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/', $value, $matches) == 0) {
+        if (preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/', $value, $matches) === 0) {
             $this->addFailureMessage('validator.date.invalid-format');
 
             return;
@@ -53,7 +53,7 @@ class DateValidator extends AbstractValidator
      */
     private function isDateValid(int $year, int $month, int $day) : bool
     {
-        if ($day == 0) {
+        if ($day === 0) {
             return false;
         }
 
@@ -93,6 +93,6 @@ class DateValidator extends AbstractValidator
      */
     private function isLeapYear(int $year) : bool
     {
-        return (($year & 3) == 0) && (($year % 100) != 0 || ($year % 400) == 0);
+        return (($year & 3) === 0) && (($year % 100) !== 0 || ($year % 400) === 0);
     }
 }
