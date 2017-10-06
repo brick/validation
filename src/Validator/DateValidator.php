@@ -33,7 +33,7 @@ class DateValidator extends AbstractValidator
             return;
         }
 
-        list (, $year, $month, $day) = $matches;
+        [, $year, $month, $day] = $matches;
 
         $year  = (int) $year;
         $month = (int) $month;
