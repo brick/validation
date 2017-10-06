@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Tests\Validation;
+namespace Brick\Validation\Tests;
 
 use Brick\Validation\Validator\NumberValidator;
 

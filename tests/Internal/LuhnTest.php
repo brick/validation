@@ -1,13 +1,13 @@
 <?php
 
-namespace Brick\Tests\Checksum;
+namespace Brick\Validation\Tests\Internal;
 
 use Brick\Validation\Internal\Luhn;
 
 use PHPUnit\Framework\TestCase;
 
 /**
- * Unit tests for class ReflectionTools.
+ * Unit tests for class Luhn.
  */
 class LuhnTest extends TestCase
 {
