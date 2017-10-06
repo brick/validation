@@ -41,7 +41,7 @@ class PatternValidator extends AbstractValidator
      */
     protected function validate(string $value) : void
     {
-        if (preg_match($this->pattern, $value) === 0) {
+        if (preg_match($this->pattern, $value) !== 1) {
             $this->addFailureMessage('validator.pattern.no-match');
         }
     }

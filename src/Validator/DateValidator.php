@@ -27,7 +27,7 @@ class DateValidator extends AbstractValidator
      */
     protected function validate(string $value) : void
     {
-        if (preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/', $value, $matches) === 0) {
+        if (preg_match('/^([0-9]{4})\-([0-9]{2})\-([0-9]{2})$/', $value, $matches) !== 1) {
             $this->addFailureMessage('validator.date.invalid-format');
 
             return;

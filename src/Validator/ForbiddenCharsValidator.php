@@ -43,7 +43,7 @@ class ForbiddenCharsValidator extends AbstractValidator
     {
         $regexp = '/[' . preg_quote($this->forbiddenChars, '/') . ']/';
 
-        if (preg_match($regexp, $value) != 0) {
+        if (preg_match($regexp, $value) !== 0) {
             $this->addFailureMessage('validator.forbidden-chars');
         }
     }
