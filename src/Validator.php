@@ -21,7 +21,11 @@ interface Validator
     /**
      * Returns the failure messages from the last validation.
      *
-     * Keys are unique identifiers to the message, values are the failure message in English.
+     * Keys are unique message identifiers, values are failure messages in English.
+     * Unique message identifiers can be used for translation.
+     *
+     * If the last validation was successful, or if no validation has been performed yet, an empty array is returned.
+     * If the last validation was unsuccessful, the result array contains at least one failure message.
      *
      * @return array The last failure messages.
      */
@@ -30,7 +34,8 @@ interface Validator
     /**
      * Returns all possible failure messages for this validator.
      *
-     * Keys are unique identifiers to the message, values are the failure message in English.
+     * Keys are unique message identifiers, values are failures message in English.
+     * This method is useful to integrate all possible error messages in a translation system.
      *
      * @return array
      */
