@@ -14,11 +14,11 @@ class Luhn
      *
      * @param string $number
      *
-     * @return integer
+     * @return int
      *
      * @throws \InvalidArgumentException
      */
-    public static function getCheckDigit($number)
+    public static function getCheckDigit(string $number) : int
     {
         if (! ctype_digit($number)) {
             throw new \InvalidArgumentException('The number must be a string of digits');
@@ -26,7 +26,7 @@ class Luhn
 
         $checksum = self::checksum($number . '0');
 
-        return ($checksum == 0) ? 0 : 10 - $checksum;
+        return ($checksum === 0) ? 0 : 10 - $checksum;
     }
 
     /**
@@ -34,11 +34,15 @@ class Luhn
      *
      * @param string $number
      *
-     * @return boolean
+     * @return bool
      */
-    public static function isValid($number)
+    public static function isValid(string $number) : bool
     {
-        return ctype_digit($number) ? (self::checksum($number) == 0) : false;
+        if (ctype_digit($number)) {
+            return self::checksum($number) === 0;
+        }
+
+        return false;
     }
 
     /**
@@ -46,14 +50,16 @@ class Luhn
      *
      * @param string $number The number, validated as a string of digits.
      *
-     * @return integer
+     * @return int
      */
-    private static function checksum($number)
+    private static function checksum(string $number) : int
     {
         $number = strrev($number);
+        $length = strlen($number);
+
         $sum = 0;
 
-        for ($i = 0; $i < strlen($number); $i++) {
+        for ($i = 0; $i < $length; $i++) {
             $value = $number[$i] * ($i % 2 + 1);
             $sum += ($value >= 10 ? $value - 9 : $value);
         }
