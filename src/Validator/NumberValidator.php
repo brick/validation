@@ -59,6 +59,9 @@ class NumberValidator extends AbstractValidator
         } elseif ($this->max && $value->isGreaterThan($this->max)) {
             $this->addFailureMessage('validator.number.max');
         } elseif ($this->step) {
+            if ($this->min) {
+                $value = $value->minus($this->min);
+            }
             try {
                 $value->dividedBy($this->step);
             } catch (MathException $e) {
