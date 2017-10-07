@@ -48,17 +48,72 @@ class StringValidator extends AbstractValidator
      */
     protected function validate(string $value) : void
     {
-        if (! mb_check_encoding($value, 'UTF-8')) {
+        $length = $this->getLength($value);
+
+        if ($length === null) {
             $this->addFailureMessage('validator.string.encoding');
+
             return;
         }
-
-        $length = mb_strlen($value, 'UTF-8');
 
         if ($this->minLength && $length < $this->minLength) {
             $this->addFailureMessage('validator.string.too-short');
         } elseif ($this->maxLength && $length > $this->maxLength) {
             $this->addFailureMessage('validator.string.too-long');
         }
+    }
+
+    /**
+     * Returns the length of the given string, or null if not a valid UTF-8 string.
+     *
+     * @param string $string
+     *
+     * @return int|null
+     */
+    private function getLength(string $string) : ?int
+    {
+        if (extension_loaded('mbstring')) {
+            if (! mb_check_encoding($string, 'UTF-8')) {
+                return null;
+            }
+
+            return mb_strlen($string, 'UTF-8');
+        }
+
+        $charLength = 0;
+
+        $length = strlen($string);
+
+        for ($i = 0; $i < $length; $i++) {
+            $charLength++;
+
+            $char = ord($string[$i]);
+
+            if ($char < 0x80) { // 0bbbbbbb
+                continue;
+            }
+
+            if (($char & 0xE0) === 0xC0) { // 110bbbbb
+                $n = 1;
+            } elseif (($char & 0xF0) === 0xE0) { // 1110bbbb
+                $n = 2;
+            } elseif (($char & 0xF0) === 0xF0) { // 1111bbbb
+                $n = 3;
+            } else { // invalid char
+                return null;
+            }
+
+            for ($j = 0; $j < $n; $j++) {
+                if (++$i === $length) { // unexpected end of string
+                    return null;
+                }
+
+                if ((ord($string[$i]) & 0xC0) !== 0x80) { // does not match 10bbbbbb
+                    return null;
+                }
+            }
+        }
+
+        return $charLength;
     }
 }

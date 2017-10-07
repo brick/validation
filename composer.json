@@ -9,12 +9,14 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.1",
-    "ext-mbstring": "*"
+    "php": ">=7.1"
   },
   "require-dev": {
     "phpunit/phpunit": "6.*",
     "satooshi/php-coveralls": "1.*"
+  },
+  "suggest": {
+    "ext-mbstring": "Speeds up StringValidator"
   },
   "autoload": {
     "psr-4": {
