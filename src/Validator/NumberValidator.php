@@ -52,6 +52,8 @@ class NumberValidator extends AbstractValidator
         }
         catch (MathException $e) {
             $this->addFailureMessage('validator.number.invalid');
+
+            return;
         }
 
         if ($this->min && $value->isLessThan($this->min)) {
