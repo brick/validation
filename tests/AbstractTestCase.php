@@ -22,15 +22,19 @@ abstract class AbstractTestCase extends TestCase
         $testNumber = 1;
 
         foreach ($tests as $value => $expectedFailureMessageKeys) {
+            $isValid = $validator->isValid($value);
+            $failureMessages = $validator->getFailureMessages();
+            $failureMessageKeys = array_keys($failureMessages);
+
             $message = sprintf(
                 'Test number %d: expected %s, got %s',
                 $testNumber,
                 json_encode($expectedFailureMessageKeys),
-                json_encode(array_keys($validator->getFailureMessages()))
+                json_encode($failureMessageKeys)
             );
 
-            $this->assertSame($expectedFailureMessageKeys === [], $validator->isValid($value), $message);
-            $this->assertSame($expectedFailureMessageKeys, array_keys($validator->getFailureMessages()), $message);
+            $this->assertSame($expectedFailureMessageKeys === [], $isValid, $message);
+            $this->assertSame($expectedFailureMessageKeys, $failureMessageKeys, $message);
 
             $testNumber++;
         }
