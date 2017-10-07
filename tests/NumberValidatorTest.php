@@ -104,14 +104,25 @@ class NumberValidatorTest extends AbstractTestCase
             '4.9' => ['validator.number.max'],
             '5.0' => ['validator.number.max'],
         ]);
+    }
 
-        $validator->setMin('-0.1');
+    public function testDecimalNumbersNegativeMin()
+    {
+        $validator = new NumberValidator();
+        $validator->setMin('-0.7');
         $validator->setMax('0.7');
+        $validator->setStep('0.3');
 
         $this->doTestValidator($validator, [
-            '-0.4' => ['validator.number.min'],
-            '-0.3' => ['validator.number.min'],
-            '-0.2' => ['validator.number.min'],
+            '-1' => ['validator.number.min'],
+            '-0.9' => ['validator.number.min'],
+            '-0.8' => ['validator.number.min'],
+            '-0.7' => [],
+            '-0.6' => ['validator.number.step'],
+            '-0.5' => ['validator.number.step'],
+            '-0.4' => [],
+            '-0.3' => ['validator.number.step'],
+            '-0.2' => ['validator.number.step'],
             '-0.1' => [],
             '0' => ['validator.number.step'],
             '0.1' => ['validator.number.step'],
