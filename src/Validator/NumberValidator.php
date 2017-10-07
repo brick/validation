@@ -6,26 +6,29 @@ namespace Brick\Validation\Validator;
 
 use Brick\Validation\AbstractValidator;
 
-use Brick\Math\Exception\MathException;
-use Brick\Math\BigDecimal;
-
 /**
  * Validates a number.
  */
 class NumberValidator extends AbstractValidator
 {
     /**
-     * @var \Brick\Math\BigDecimal|null
+     * The minimum value, or null for no minimum.
+     *
+     * @var string|null
      */
     private $min = null;
 
     /**
-     * @var \Brick\Math\BigDecimal|null
+     * The maximum value, or null for no maximum.
+     *
+     * @var string|null
      */
     private $max = null;
 
     /**
-     * @var \Brick\Math\BigDecimal|null
+     * The step, or null for no constraint.
+     *
+     * @var string|null
      */
     private $step = null;
 
@@ -48,41 +51,43 @@ class NumberValidator extends AbstractValidator
     protected function validate(string $value) : void
     {
         try {
-            $value = BigDecimal::of($value);
-        }
-        catch (MathException $e) {
+            $value = $this->getNumber($value);
+        } catch (\InvalidArgumentException $e) {
             $this->addFailureMessage('validator.number.invalid');
 
             return;
         }
 
-        if ($this->min && $value->isLessThan($this->min)) {
+        $value = (float) $value;
+
+        if ($this->min !== null && $value < (float) $this->min) {
             $this->addFailureMessage('validator.number.min');
-        } elseif ($this->max && $value->isGreaterThan($this->max)) {
+        } elseif ($this->max !== null && $value > (float) $this->max) {
             $this->addFailureMessage('validator.number.max');
-        } elseif ($this->step) {
-            if ($this->min) {
-                $value = $value->minus($this->min);
+        } elseif ($this->step !== null) {
+            if ($this->min !== null) {
+                $value -= (float) $this->min;
             }
-            try {
-                $value->dividedBy($this->step);
-            } catch (MathException $e) {
+
+            $fmod = (string) fmod($value, (float) $this->step);
+
+            if ($fmod !== '0' && $fmod !== $this->step) {
                 $this->addFailureMessage('validator.number.step');
             }
         }
     }
 
     /**
-     * @param number|string|null $min The minimum value, or null to remove it.
+     * @param string|null $min The minimum value, or null to remove it.
      *
      * @return NumberValidator
      *
      * @throws \InvalidArgumentException If not a valid number.
      */
-    public function setMin($min) : self
+    public function setMin(?string $min) : self
     {
         if ($min !== null) {
-            $min = BigDecimal::of($min);
+            $min = $this->getNumber($min);
         }
 
         $this->min = $min;
@@ -91,16 +96,16 @@ class NumberValidator extends AbstractValidator
     }
 
     /**
-     * @param number|string|null $max The maximum value, or null to remove it.
+     * @param string|null $max The maximum value, or null to remove it.
      *
      * @return NumberValidator
      *
      * @throws \InvalidArgumentException If not a valid number.
      */
-    public function setMax($max) : self
+    public function setMax(?string $max) : self
     {
         if ($max !== null) {
-            $max = BigDecimal::of($max);
+            $max = $this->getNumber($max);
         }
 
         $this->max = $max;
@@ -115,18 +120,62 @@ class NumberValidator extends AbstractValidator
      *
      * @throws \InvalidArgumentException If the step is not a valid number or not positive.
      */
-    public function setStep($step) : self
+    public function setStep(?string $step) : self
     {
         if ($step !== null) {
-            $step = BigDecimal::of($step);
+            $step = $this->getNumber($step);
 
-            if ($step->isNegativeOrZero()) {
-                throw new \InvalidArgumentException('The number validator step must be strictly positive.');
+            if ($step === '0' || $step[0] === '-') {
+                throw new \InvalidArgumentException('The step must be strictly positive.');
             }
         }
 
         $this->step = $step;
 
         return $this;
+    }
+
+    /**
+     * Returns a canonical version of the given number.
+     *
+     * Leading zeros are removed in the integral part, and trailing zeros are removed in the fractional part.
+     *
+     * @param string $number
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException If the number is not valid.
+     */
+    private function getNumber(string $number) : string
+    {
+        if (preg_match('/^(\-?)([0-9]+)(?:\.([0-9]+))?$/', $number, $matches) !== 1) {
+            throw new \InvalidArgumentException('Invalid number: ' . $number);
+        }
+
+        $sign = $matches[1];
+
+        $integral = ltrim($matches[2], '0');
+
+        if ($integral === '') {
+            $integral = '0';
+        }
+
+        if (isset($matches[3])) {
+            $fractional = rtrim($matches[3], '0');
+        } else {
+            $fractional = '';
+        }
+
+        if ($integral === '0' && $fractional === '') {
+            $sign = '';
+        }
+
+        $number = $sign . $integral;
+
+        if ($fractional !== '') {
+            $number .= '.' . $fractional;
+        }
+
+        return $number;
     }
 }
