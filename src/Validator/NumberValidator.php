@@ -5,30 +5,34 @@ declare(strict_types=1);
 namespace Brick\Validation\Validator;
 
 use Brick\Validation\AbstractValidator;
+use Brick\Validation\Internal\Decimal;
 
 /**
  * Validates a number.
+ *
+ * Integer and decimal numbers are supported. Both are represented as integers internally, so the maximum number of
+ * digits supported depends on the int size of the platform.
  */
 class NumberValidator extends AbstractValidator
 {
     /**
      * The minimum value, or null for no minimum.
      *
-     * @var string|null
+     * @var Decimal|null
      */
     private $min = null;
 
     /**
      * The maximum value, or null for no maximum.
      *
-     * @var string|null
+     * @var Decimal|null
      */
     private $max = null;
 
     /**
      * The step, or null for no constraint.
      *
-     * @var string|null
+     * @var Decimal|null
      */
     private $step = null;
 
@@ -38,10 +42,11 @@ class NumberValidator extends AbstractValidator
     public function getPossibleMessages() : array
     {
         return [
-            'validator.number.invalid' => 'The number is not valid.',
-            'validator.number.min'     => 'The number is too small.',
-            'validator.number.max'     => 'The number is too large.',
-            'validator.number.step'    => 'The number is not an acceptable value.',
+            'validator.number.invalid'  => 'The number is not valid.',
+            'validator.number.overflow' => 'The number is not supported.',
+            'validator.number.min'      => 'The number is too small.',
+            'validator.number.max'      => 'The number is too large.',
+            'validator.number.step'     => 'The number is not an acceptable value.',
         ];
     }
 
@@ -51,29 +56,37 @@ class NumberValidator extends AbstractValidator
     protected function validate(string $value) : void
     {
         try {
-            $value = $this->getNumber($value);
+            $value = Decimal::parse($value);
         } catch (\InvalidArgumentException $e) {
             $this->addFailureMessage('validator.number.invalid');
 
             return;
         }
 
-        $value = (float) $value;
+        try {
+            if ($this->min !== null && $value->isLessThan($this->min)) {
+                $this->addFailureMessage('validator.number.min');
 
-        if ($this->min !== null && $value < (float) $this->min) {
-            $this->addFailureMessage('validator.number.min');
-        } elseif ($this->max !== null && $value > (float) $this->max) {
-            $this->addFailureMessage('validator.number.max');
-        } elseif ($this->step !== null) {
-            if ($this->min !== null) {
-                $value -= (float) $this->min;
+                return;
             }
 
-            $fmod = (string) fmod($value, (float) $this->step);
+            if ($this->max !== null && $value->isGreaterThan($this->max)) {
+                $this->addFailureMessage('validator.number.max');
 
-            if ($fmod !== '0' && $fmod !== $this->step) {
-                $this->addFailureMessage('validator.number.step');
+                return;
             }
+
+            if ($this->step !== null) {
+                if ($this->min !== null) {
+                    $value = $value->minus($this->min);
+                }
+
+                if (! $value->isDivisibleBy($this->step)) {
+                    $this->addFailureMessage('validator.number.step');
+                }
+            }
+        } catch (\RangeException $e) {
+            $this->addFailureMessage('validator.number.overflow');
         }
     }
 
@@ -87,7 +100,7 @@ class NumberValidator extends AbstractValidator
     public function setMin(?string $min) : self
     {
         if ($min !== null) {
-            $min = $this->getNumber($min);
+            $min = Decimal::parse($min);
         }
 
         $this->min = $min;
@@ -105,7 +118,7 @@ class NumberValidator extends AbstractValidator
     public function setMax(?string $max) : self
     {
         if ($max !== null) {
-            $max = $this->getNumber($max);
+            $max = Decimal::parse($max);
         }
 
         $this->max = $max;
@@ -114,18 +127,18 @@ class NumberValidator extends AbstractValidator
     }
 
     /**
-     * @param number|string|null $step The step, or null to remove it.
+     * @param string|null $step The step, or null to remove it.
      *
      * @return NumberValidator
      *
-     * @throws \InvalidArgumentException If the step is not a valid number or not positive.
+     * @throws \InvalidArgumentException If not a valid number or not positive.
      */
     public function setStep(?string $step) : self
     {
         if ($step !== null) {
-            $step = $this->getNumber($step);
+            $step = Decimal::parse($step);
 
-            if ($step === '0' || $step[0] === '-') {
+            if ($step->isNegativeOrZero()) {
                 throw new \InvalidArgumentException('The step must be strictly positive.');
             }
         }
@@ -133,49 +146,5 @@ class NumberValidator extends AbstractValidator
         $this->step = $step;
 
         return $this;
-    }
-
-    /**
-     * Returns a canonical version of the given number.
-     *
-     * Leading zeros are removed in the integral part, and trailing zeros are removed in the fractional part.
-     *
-     * @param string $number
-     *
-     * @return string
-     *
-     * @throws \InvalidArgumentException If the number is not valid.
-     */
-    private function getNumber(string $number) : string
-    {
-        if (preg_match('/^(\-?)([0-9]+)(?:\.([0-9]+))?$/', $number, $matches) !== 1) {
-            throw new \InvalidArgumentException('Invalid number: ' . $number);
-        }
-
-        $sign = $matches[1];
-
-        $integral = ltrim($matches[2], '0');
-
-        if ($integral === '') {
-            $integral = '0';
-        }
-
-        if (isset($matches[3])) {
-            $fractional = rtrim($matches[3], '0');
-        } else {
-            $fractional = '';
-        }
-
-        if ($integral === '0' && $fractional === '') {
-            $sign = '';
-        }
-
-        $number = $sign . $integral;
-
-        if ($fractional !== '') {
-            $number .= '.' . $fractional;
-        }
-
-        return $number;
     }
 }
