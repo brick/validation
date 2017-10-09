@@ -16,12 +16,12 @@ class LengthValidator extends AbstractValidator
     /**
      * @var int|null
      */
-    private $minLength = null;
+    private $minLength;
 
     /**
      * @var int|null
      */
-    private $maxLength = null;
+    private $maxLength;
 
     /**
      * {@inheritdoc}

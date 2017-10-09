@@ -20,21 +20,21 @@ class NumberValidator extends AbstractValidator
      *
      * @var Decimal|null
      */
-    private $min = null;
+    private $min;
 
     /**
      * The maximum value, or null for no maximum.
      *
      * @var Decimal|null
      */
-    private $max = null;
+    private $max;
 
     /**
      * The step, or null for no constraint.
      *
      * @var Decimal|null
      */
-    private $step = null;
+    private $step;
 
     /**
      * {@inheritdoc}

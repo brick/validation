@@ -27,7 +27,7 @@ class ImeiValidator extends AbstractValidator
      */
     protected function validate(string $value) : void
     {
-        if (! Luhn::isValid($value) || strlen($value) != 15) {
+        if (! Luhn::isValid($value) || strlen($value) !== 15) {
             $this->addFailureMessage('validator.imei.invalid');
         }
     }
