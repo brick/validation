@@ -4,6 +4,8 @@ namespace Brick\Validation\Internal;
 
 /**
  * Simple int-based decimal class.
+ *
+ * @internal
  */
 class Decimal
 {
