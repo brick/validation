@@ -20,7 +20,11 @@
   },
   "autoload": {
     "psr-4": {
-      "Brick\\Validation\\": "src/",
+      "Brick\\Validation\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Brick\\Validation\\Tests\\": "tests/"
     }
   }
