@@ -31,6 +31,15 @@ class LuhnTest extends TestCase
     }
 
     /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage The number must be a string of digits
+     */
+    public function testGetCheckDigitWithInvalidDigitNumber()
+    {
+        Luhn::getCheckDigit('invalid_digit_number');
+    }
+
+    /**
      * @return array
      */
     public function luhnProvider()

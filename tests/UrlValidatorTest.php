@@ -22,6 +22,7 @@ class UrlValidatorTest extends AbstractTestCase
             'http:/'              => ['validator.url.invalid'],
             'http:/test.com'      => ['validator.url.invalid'],
             'http:/test.com/test' => ['validator.url.invalid'],
+            'http://user@:80'     => ['validator.url.invalid'],
 
             'http://test.com'                        => [],
             'http://test.com/'                       => [],

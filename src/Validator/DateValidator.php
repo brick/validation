@@ -33,11 +33,9 @@ class DateValidator extends AbstractValidator
             return;
         }
 
-        [, $year, $month, $day] = $matches;
-
-        $year  = (int) $year;
-        $month = (int) $month;
-        $day   = (int) $day;
+        $year  = (int) $matches[1];
+        $month = (int) $matches[2];
+        $day   = (int) $matches[3];
 
         if (! $this->isDateValid($year, $month, $day)) {
             $this->addFailureMessage('validator.date.invalid-date');

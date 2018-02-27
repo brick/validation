@@ -137,4 +137,24 @@ class NumberValidatorTest extends AbstractTestCase
             '1' => ['validator.number.max'],
         ]);
     }
+
+    public function testDecimalNumberIsOverflow()
+    {
+        $validator = new NumberValidator();
+        $validator->setStep('0.3333');
+
+        $this->doTestValidator($validator, [
+            '922337203685477580' => ['validator.number.overflow'],
+        ]);
+    }
+
+    /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage The step must be strictly positive.
+     */
+    public function testSetStepWithNonPositiveNumber()
+    {
+        $validator = new NumberValidator();
+        $validator->setStep(0);
+    }
 }

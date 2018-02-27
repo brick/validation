@@ -17,6 +17,7 @@ class DateValidatorTest extends AbstractTestCase
             '2000-01-01' => [],
             '2000-01-AB' => ['validator.date.invalid-format'],
             '2000-1-1'   => ['validator.date.invalid-format'],
+            '2000-11-01' => [],
 
             ' 2000-01-01' => ['validator.date.invalid-format'],
             '2000-01-01 ' => ['validator.date.invalid-format'],
