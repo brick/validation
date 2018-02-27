@@ -97,7 +97,7 @@ class StringValidator extends AbstractValidator
                 $n = 1;
             } elseif (($char & 0xF0) === 0xE0) { // 1110bbbb
                 $n = 2;
-            } elseif (($char & 0xF0) === 0xF0) { // 1111bbbb
+            } elseif (($char & 0xF0) === 0xF0) { // 11110bbb
                 $n = 3;
             } else { // invalid char
                 return null;
