@@ -24,7 +24,7 @@ or manually define the following requirement in your `composer.json` file:
 ```json
 {
     "require": {
-        "brick/validation": "0.1.*"
+        "brick/validation": "0.2.*"
     }
 }
 ```
