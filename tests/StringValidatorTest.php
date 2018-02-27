@@ -15,7 +15,6 @@ class StringValidatorTest extends AbstractTestCase
 
         $this->doTestValidator($validator, [
             ''   => [],
-            null => [],
         ]);
     }
 
@@ -42,7 +41,7 @@ class StringValidatorTest extends AbstractTestCase
         $validator = new StringValidator();
 
         $this->doTestValidator($validator, [
-            file_get_contents(__DIR__ . '/non_utf8.txt') => ['validator.string.encoding'],
+            base64_decode('q6LFb6VArMkK') => ['validator.string.encoding'],
         ]);
     }
 

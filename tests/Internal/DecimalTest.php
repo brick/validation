@@ -24,7 +24,7 @@ class DecimalTest extends TestCase
      * @expectedException        \RangeException
      * @expectedExceptionMessage The subtraction result overflows.
      */
-    public function testMinusWithSubstractionResultOverflows()
+    public function testMinusWithSubtractionResultOverflows()
     {
         $decimal = Decimal::parse('9223372036854775807');
         $that = Decimal::parse('-92233720368547758');
