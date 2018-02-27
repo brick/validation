@@ -6,6 +6,10 @@ php:
   - hhvm
   - nightly
 
+env:
+  - USE_PHP_EXTENSIONS=FALSE
+  - USE_PHP_EXTENSIONS=TRUE
+
 matrix:
   allow_failures:
     - php: hhvm

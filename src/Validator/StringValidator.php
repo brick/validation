@@ -72,7 +72,7 @@ class StringValidator extends AbstractValidator
      */
     private function getLength(string $string) : ?int
     {
-        if (extension_loaded('mbstring')) {
+        if (extension_loaded('mbstring') && ! defined('NO_PHP_EXTENSIONS')) { // constant used for tests
             if (! mb_check_encoding($string, 'UTF-8')) {
                 return null;
             }
