@@ -3,20 +3,13 @@ language: php
 php:
   - 7.1
   - 7.2
-  - hhvm
-  - nightly
+  - 7.3
 
 env:
   - USE_PHP_EXTENSIONS=FALSE
   - USE_PHP_EXTENSIONS=TRUE
 
-matrix:
-  allow_failures:
-    - php: hhvm
-    - php: nightly
-
 before_script:
-  - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo hhvm.php7.all=1 >> /etc/hhvm/php.ini; fi
   - composer install
 
 script:
