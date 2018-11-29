@@ -11,22 +11,10 @@ A PHP validation library.
 
 ## Installation
 
-This library is installable via [Composer](https://getcomposer.org/).
-
-Just run:
+This library is installable via [Composer](https://getcomposer.org/):
 
 ```bash
 composer require brick/validation
-```
-
-or manually define the following requirement in your `composer.json` file:
-
-```json
-{
-    "require": {
-        "brick/validation": "0.2.*"
-    }
-}
 ```
 
 ## Requirements
