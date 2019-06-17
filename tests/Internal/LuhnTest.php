@@ -16,7 +16,7 @@ class LuhnTest extends TestCase
      *
      * @param string $number
      */
-    public function testLuhn($number)
+    public function testLuhn($number) : void
     {
         $rawNumber = substr($number, 0, -1);
         $checkDigit = substr($number, -1);
@@ -34,7 +34,7 @@ class LuhnTest extends TestCase
      * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage The number must be a string of digits
      */
-    public function testGetCheckDigitWithInvalidDigitNumber()
+    public function testGetCheckDigitWithInvalidDigitNumber() : void
     {
         Luhn::getCheckDigit('invalid_digit_number');
     }
@@ -42,7 +42,7 @@ class LuhnTest extends TestCase
     /**
      * @return array
      */
-    public function luhnProvider()
+    public function luhnProvider() : array
     {
         return [
             // Wikipedia example

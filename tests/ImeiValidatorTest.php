@@ -9,11 +9,19 @@ use Brick\Validation\Validator\ImeiValidator;
  */
 class ImeiValidatorTest extends AbstractTestCase
 {
-    public function testImeiValidator()
+    /**
+     * @dataProvider providerImeiValidator
+     */
+    public function testImeiValidator(string $input, array $output) : void
     {
         $validator = new ImeiValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerImeiValidator() : array
+    {
+        return $this->convertLegacyTests([
             ''               => ['validator.imei.invalid'],
             '0'              => ['validator.imei.invalid'],
             '00'             => ['validator.imei.invalid'],

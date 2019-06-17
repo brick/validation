@@ -9,11 +9,19 @@ use Brick\Validation\Validator\ForbiddenCharsValidator;
  */
 class ForbiddenCharsValidatorTest extends AbstractTestCase
 {
-    public function testForbiddenCharsValidator()
+    /**
+     * @dataProvider providerForbiddenCharsValidator
+     */
+    public function testForbiddenCharsValidator(string $input, array $output) : void
     {
         $validator = new ForbiddenCharsValidator('<>');
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerForbiddenCharsValidator() : array
+    {
+        return $this->convertLegacyTests([
             ''     => [],
             'abc'  => [],
             'a b'  => [],

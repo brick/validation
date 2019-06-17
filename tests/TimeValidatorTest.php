@@ -9,11 +9,19 @@ use Brick\Validation\Validator\TimeValidator;
  */
 class TimeValidatorTest extends AbstractTestCase
 {
-    public function testTimeValidator()
+    /**
+     * @dataProvider providerTimeValidator
+     */
+    public function testTimeValidator(string $input, array $output) : void
     {
         $validator = new TimeValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerTimeValidator() : array
+    {
+        return $this->convertLegacyTests([
             ''            => ['validator.time.invalid-format'],
             '0'           => ['validator.time.invalid-format'],
             '00'          => ['validator.time.invalid-format'],

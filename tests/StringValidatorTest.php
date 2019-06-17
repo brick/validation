@@ -9,22 +9,38 @@ use Brick\Validation\Validator\StringValidator;
  */
 class StringValidatorTest extends AbstractTestCase
 {
-    public function testDefault()
+    /**
+     * @dataProvider providerDefault
+     */
+    public function testDefault(string $input, array $output) : void
     {
         $validator = new StringValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerDefault() : array
+    {
+        return $this->convertLegacyTests([
             ''           => [],
             'abc/def'    => [],
             'àéìòù 汉字'   => [],
         ]);
     }
 
-    public function testMinLength()
+    /**
+     * @dataProvider providerMinLength
+     */
+    public function testMinLength(string $input, array $output) : void
     {
         $validator = new StringValidator(5, 0);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerMinLength() : array
+    {
+        return $this->convertLegacyTests([
             ''             => ['validator.string.too-short'],
             'a'            => ['validator.string.too-short'],
             'àb'           => ['validator.string.too-short'],
@@ -42,11 +58,19 @@ class StringValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testMinMaxLength()
+    /**
+     * @dataProvider providerMinMaxLength
+     */
+    public function testMinMaxLength(string $input, array $output) : void
     {
         $validator = new StringValidator(5, 10);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerMinMaxLength() : array
+    {
+        return $this->convertLegacyTests([
             ''             => ['validator.string.too-short'],
             'a'            => ['validator.string.too-short'],
             'àb'           => ['validator.string.too-short'],
@@ -63,7 +87,17 @@ class StringValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testInvalidUTF8()
+    /**
+     * @dataProvider providerInvalidUTF8
+     */
+    public function testInvalidUTF8(string $input, array $output) : void
+    {
+        $validator = new StringValidator();
+
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerInvalidUTF8() : array
     {
         $invalidStrings = [
             /* illegal char */
@@ -98,15 +132,15 @@ class StringValidatorTest extends AbstractTestCase
         ];
 
         $tests = [];
+
         foreach ($invalidStrings as $invalidString) {
             $tests[$invalidString] = ['validator.string.encoding'];
         }
 
-        $validator = new StringValidator();
-        $this->doTestValidator($validator, $tests);
+        return $this->convertLegacyTests($tests);
     }
 
-    public function testGetPossibleMessages()
+    public function testGetPossibleMessages() : void
     {
         $validator = new StringValidator();
         $result = $validator->getPossibleMessages();

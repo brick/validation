@@ -9,11 +9,19 @@ use Brick\Validation\Validator\DigitValidator;
  */
 class DigitValidatorTest extends AbstractTestCase
 {
-    public function testDigitValidator()
+    /**
+     * @dataProvider providerDigitValidator
+     */
+    public function testDigitValidator(string $input, array $output) : void
     {
         $validator = new DigitValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerDigitValidator() : array
+    {
+        return $this->convertLegacyTests([
             '0123456789'                     => [],
             '012345678901234567890123456789' => [],
 

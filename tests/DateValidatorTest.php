@@ -9,11 +9,19 @@ use Brick\Validation\Validator\DateValidator;
  */
 class DateValidatorTest extends AbstractTestCase
 {
-    public function testDateValidator()
+    /**
+     * @dataProvider providerDateValidator
+     */
+    public function testDateValidator(string $input, array $output) : void
     {
         $validator = new DateValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerDateValidator() : array
+    {
+        return $this->convertLegacyTests([
             '2000-01-01' => [],
             '2000-01-AB' => ['validator.date.invalid-format'],
             '2000-1-1'   => ['validator.date.invalid-format'],

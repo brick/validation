@@ -12,32 +12,46 @@ use PHPUnit\Framework\TestCase;
 abstract class AbstractTestCase extends TestCase
 {
     /**
-     * @param Validator $validator The validator under test.
-     * @param array     $tests     The values to test, along with the expected results.
+     * @param Validator $validator
+     * @param string    $value
+     * @param array     $expectedFailureMessageKeys
      *
      * @return void
      */
-    final protected function doTestValidator(Validator $validator, array $tests)
+    final protected function doTestValidator(Validator $validator, string $value, array $expectedFailureMessageKeys) : void
     {
-        $testNumber = 1;
+        $isValid = $validator->isValid($value);
+        $failureMessages = $validator->getFailureMessages();
+        $failureMessageKeys = array_keys($failureMessages);
 
-        foreach ($tests as $value => $expectedFailureMessageKeys) {
-            $isValid = $validator->isValid($value);
-            $failureMessages = $validator->getFailureMessages();
-            $failureMessageKeys = array_keys($failureMessages);
+        $message = sprintf(
+            '"%s": expected %s, got %s',
+            $value,
+            json_encode($expectedFailureMessageKeys),
+            json_encode($failureMessageKeys)
+        );
 
-            $message = sprintf(
-                'Test number %d ("%s"): expected %s, got %s',
-                $testNumber,
-                $value,
-                json_encode($expectedFailureMessageKeys),
-                json_encode($failureMessageKeys)
-            );
+        $this->assertSame($expectedFailureMessageKeys === [], $isValid, $message);
+        $this->assertSame($expectedFailureMessageKeys, $failureMessageKeys, $message);
+    }
 
-            $this->assertSame($expectedFailureMessageKeys === [], $isValid, $message);
-            $this->assertSame($expectedFailureMessageKeys, $failureMessageKeys, $message);
+    /**
+     * Converts legacy key-value tests to a dataProvider-compatible array.
+     *
+     * @todo rewrite the tests and delete this
+     *
+     * @param array $tests
+     *
+     * @return array
+     */
+    final protected function convertLegacyTests(array $tests) : array
+    {
+        $result = [];
 
-            $testNumber++;
+        foreach ($tests as $key => $value) {
+            $result[] = [$key, $value];
         }
+
+        return $result;
     }
 }

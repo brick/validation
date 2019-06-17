@@ -9,11 +9,19 @@ use Brick\Validation\Validator\EmailValidator;
  */
 class EmailValidatorTest extends AbstractTestCase
 {
-    public function testEmailValidator()
+    /**
+     * @dataProvider providerEmailValidator
+     */
+    public function testEmailValidator(string $input, array $output) : void
     {
         $validator = new EmailValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerEmailValidator() : array
+    {
+        return $this->convertLegacyTests([
             '' => ['validator.email.invalid'],
 
             'test@test.com'   => [],

@@ -9,11 +9,19 @@ use Brick\Validation\Validator\SimValidator;
  */
 class SimValidatorTest extends AbstractTestCase
 {
-    public function testSimValidator()
+    /**
+     * @dataProvider providerSimValidator
+     */
+    public function testSimValidator(string $input, array $output) : void
     {
         $validator = new SimValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerSimValidator() : array
+    {
+        return $this->convertLegacyTests([
             // not enough digits
             ''                   => ['validator.sim.invalid'],
             '0'                  => ['validator.sim.invalid'],
@@ -57,11 +65,19 @@ class SimValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testSimValidatorWithCheckDigit()
+    /**
+     * @dataProvider providerSimValidatorWithCheckDigit
+     */
+    public function testSimValidatorWithCheckDigit(string $input, array $output) : void
     {
         $validator = new SimValidator(true);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerSimValidatorWithCheckDigit() : array
+    {
+        return $this->convertLegacyTests([
             ''                   => ['validator.sim.invalid'],
             '0'                  => ['validator.sim.invalid'],
             '00'                 => ['validator.sim.invalid'],
@@ -131,11 +147,19 @@ class SimValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testSimValidatorWithoutCheckDigit()
+    /**
+     * @dataProvider providerSimValidatorWithoutCheckDigit
+     */
+    public function testSimValidatorWithoutCheckDigit(string $input, array $output) : void
     {
         $validator = new SimValidator(false);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerSimValidatorWithoutCheckDigit() : array
+    {
+        return $this->convertLegacyTests([
             ''                      => ['validator.sim.invalid'],
             '0'                     => ['validator.sim.invalid'],
             '00'                    => ['validator.sim.invalid'],

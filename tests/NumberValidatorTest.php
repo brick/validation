@@ -9,11 +9,19 @@ use Brick\Validation\Validator\NumberValidator;
  */
 class NumberValidatorTest extends AbstractTestCase
 {
-    public function testValidNumbers()
+    /**
+     * @dataProvider providerValidNumbers
+     */
+    public function testValidNumbers(string $input, array $output) : void
     {
         $validator = new NumberValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerValidNumbers() : array
+    {
+        return $this->convertLegacyTests([
             '1'    => [],
             '1.23' => [],
             'test' => ['validator.number.invalid'],
@@ -23,12 +31,20 @@ class NumberValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testMin()
+    /**
+     * @dataProvider providerMin
+     */
+    public function testMin(string $input, array $output) : void
     {
         $validator = new NumberValidator();
         $validator->setMin(1);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerMin() : array
+    {
+        return $this->convertLegacyTests([
             '0' => ['validator.number.min'],
             '1' => [],
             '2' => [],
@@ -39,12 +55,20 @@ class NumberValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testMax()
+    /**
+     * @dataProvider providerMax
+     */
+    public function testMax(string $input, array $output) : void
     {
         $validator = new NumberValidator();
         $validator->setMax(1);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerMax() : array
+    {
+        return $this->convertLegacyTests([
             '0' => [],
             '1' => [],
             '2' => ['validator.number.max'],
@@ -55,12 +79,20 @@ class NumberValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testStep()
+    /**
+     * @dataProvider providerStep
+     */
+    public function testStep(string $input, array $output) : void
     {
         $validator = new NumberValidator();
         $validator->setStep(2);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerStep() : array
+    {
+        return $this->convertLegacyTests([
             '0' => [],
             '1' => ['validator.number.step'],
             '2' => [],
@@ -71,14 +103,22 @@ class NumberValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testDecimalNumbers()
+    /**
+     * @dataProvider providerDecimalNumbers
+     */
+    public function testDecimalNumbers(string $input, array $output) : void
     {
         $validator = new NumberValidator();
         $validator->setMin('3.5');
         $validator->setMax('4.3');
         $validator->setStep('0.3');
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerDecimalNumbers() : array
+    {
+        return $this->convertLegacyTests([
             '0' => ['validator.number.min'],
             '1' => ['validator.number.min'],
             '2' => ['validator.number.min'],
@@ -106,14 +146,22 @@ class NumberValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testDecimalNumbersNegativeMin()
+    /**
+     * @dataProvider providerDecimalNumbersNegativeMin
+     */
+    public function testDecimalNumbersNegativeMin(string $input, array $output) : void
     {
         $validator = new NumberValidator();
         $validator->setMin('-0.7');
         $validator->setMax('0.7');
         $validator->setStep('0.3');
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerDecimalNumbersNegativeMin() : array
+    {
+        return $this->convertLegacyTests([
             '-1' => ['validator.number.min'],
             '-0.9' => ['validator.number.min'],
             '-0.8' => ['validator.number.min'],
@@ -138,21 +186,19 @@ class NumberValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testDecimalNumberIsOverflow()
+    public function testDecimalNumberIsOverflow() : void
     {
         $validator = new NumberValidator();
         $validator->setStep('0.3333');
 
-        $this->doTestValidator($validator, [
-            '922337203685477580' => ['validator.number.overflow'],
-        ]);
+        $this->doTestValidator($validator, '922337203685477580', ['validator.number.overflow']);
     }
 
     /**
      * @expectedException        \InvalidArgumentException
      * @expectedExceptionMessage The step must be strictly positive.
      */
-    public function testSetStepWithNonPositiveNumber()
+    public function testSetStepWithNonPositiveNumber() : void
     {
         $validator = new NumberValidator();
         $validator->setStep(0);

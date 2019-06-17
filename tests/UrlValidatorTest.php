@@ -9,11 +9,19 @@ use Brick\Validation\Validator\UrlValidator;
  */
 class UrlValidatorTest extends AbstractTestCase
 {
-    public function testUrlValidator()
+    /**
+     * @dataProvider providerUrlValidator
+     */
+    public function testUrlValidator(string $input, array $output) : void
     {
         $validator = new UrlValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerUrlValidator() : array
+    {
+        return $this->convertLegacyTests([
             ''                    => ['validator.url.invalid'],
             'http'                => ['validator.url.invalid'],
             'http:'               => ['validator.url.invalid'],

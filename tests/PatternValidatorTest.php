@@ -9,11 +9,19 @@ use Brick\Validation\Validator\PatternValidator;
  */
 class PatternValidatorTest extends AbstractTestCase
 {
-    public function testPatternValidator()
+    /**
+     * @dataProvider providerPatternValidator
+     */
+    public function testPatternValidator(string $input, array $output) : void
     {
         $validator = new PatternValidator('[0-9a-z]{2}');
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerPatternValidator() : array
+    {
+        return $this->convertLegacyTests([
             'ab' => [],
             'a0' => [],
             '0a' => [],

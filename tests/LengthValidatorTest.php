@@ -9,11 +9,19 @@ use Brick\Validation\Validator\LengthValidator;
  */
 class LengthValidatorTest extends AbstractTestCase
 {
-    public function testNoConstraintsByDefault()
+    /**
+     * @dataProvider providerNoConstraintsByDefault
+     */
+    public function testNoConstraintsByDefault(string $input, array $output) : void
     {
         $validator = new LengthValidator();
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerNoConstraintsByDefault() : array
+    {
+        return $this->convertLegacyTests([
             ''     => [],
             'a'    => [],
             'ab'   => [],
@@ -22,12 +30,20 @@ class LengthValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testMinLength()
+    /**
+     * @dataProvider providerMinLength
+     */
+    public function testMinLength(string $input, array $output) : void
     {
         $validator = new LengthValidator();
         $validator->setMinLength(2);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerMinLength() : array
+    {
+        return $this->convertLegacyTests([
             ''     => ['validator.length.too-short'],
             'a'    => ['validator.length.too-short'],
             'ab'   => [],
@@ -36,12 +52,20 @@ class LengthValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testMaxLength()
+    /**
+     * @dataProvider providerMaxLength
+     */
+    public function testMaxLength(string $input, array $output) : void
     {
         $validator = new LengthValidator();
         $validator->setMaxLength(2);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerMaxLength() : array
+    {
+        return $this->convertLegacyTests([
             ''     => [],
             'a'    => [],
             'ab'   => [],
@@ -50,13 +74,21 @@ class LengthValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testMinAndMaxLength()
+    /**
+     * @dataProvider providerMinAndMaxLength
+     */
+    public function testMinAndMaxLength(string $input, array $output) : void
     {
         $validator = new LengthValidator();
         $validator->setMinLength(1);
         $validator->setMaxLength(3);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerMinAndMaxLength() : array
+    {
+        return $this->convertLegacyTests([
             ''     => ['validator.length.too-short'],
             'a'    => [],
             'ab'   => [],
@@ -65,12 +97,20 @@ class LengthValidatorTest extends AbstractTestCase
         ]);
     }
 
-    public function testExactLength()
+    /**
+     * @dataProvider providerExactLength
+     */
+    public function testExactLength(string $input, array $output) : void
     {
         $validator = new LengthValidator();
         $validator->setLength(2);
 
-        $this->doTestValidator($validator, [
+        $this->doTestValidator($validator, $input, $output);
+    }
+
+    public function providerExactLength() : array
+    {
+        return $this->convertLegacyTests([
             ''     => ['validator.length.too-short'],
             'a'    => ['validator.length.too-short'],
             'ab'   => [],

@@ -16,9 +16,7 @@ class GtinValidatorTest extends AbstractTestCase
     {
         $validator = new GtinValidator();
 
-        $this->doTestValidator($validator, [
-            $input => $output
-        ]);
+        $this->doTestValidator($validator, $input, $output);
     }
 
     public function providerGtinValidator() : array
