@@ -27,8 +27,9 @@ abstract class AbstractTestCase extends TestCase
             $failureMessageKeys = array_keys($failureMessages);
 
             $message = sprintf(
-                'Test number %d: expected %s, got %s',
+                'Test number %d ("%s"): expected %s, got %s',
                 $testNumber,
+                $value,
                 json_encode($expectedFailureMessageKeys),
                 json_encode($failureMessageKeys)
             );
