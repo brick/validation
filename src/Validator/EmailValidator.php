@@ -17,7 +17,7 @@ use Brick\Validation\AbstractValidator;
  * > and too lax (allowing comments, whitespace characters, and quoted strings in manners unfamiliar
  * > to most users) to be of practical use here.
  *
- * @see http://www.w3.org/TR/html5/forms.html#states-of-the-type-attribute
+ * @see https://html.spec.whatwg.org/multipage/input.html#e-mail-state-(type=email)
  */
 class EmailValidator extends AbstractValidator
 {
@@ -36,7 +36,7 @@ class EmailValidator extends AbstractValidator
      */
     protected function validate(string $value) : void
     {
-        $regexp = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
+        $regexp = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/';
 
         if (preg_match($regexp, $value) !== 1) {
             $this->addFailureMessage('validator.email.invalid');
