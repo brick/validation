@@ -18,7 +18,7 @@ class LuhnTest extends TestCase
      *
      * @param string $number
      */
-    public function testLuhn($number) : void
+    public function testLuhn(string $number) : void
     {
         $rawNumber = substr($number, 0, -1);
         $checkDigit = substr($number, -1);
