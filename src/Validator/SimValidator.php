@@ -42,7 +42,7 @@ class SimValidator extends AbstractValidator
      *
      * @param bool|null $hasCheckDigit Whether the number to validate has a check digit, or null if unknown.
      */
-    public function __construct(bool $hasCheckDigit = null)
+    public function __construct(?bool $hasCheckDigit = null)
     {
         $this->hasCheckDigit = $hasCheckDigit;
     }
