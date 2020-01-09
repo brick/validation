@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Validation\Tests;
 
 use Brick\Validation\Validator\NumberValidator;
@@ -37,7 +39,7 @@ class NumberValidatorTest extends AbstractTestCase
     public function testMin(string $input, array $output) : void
     {
         $validator = new NumberValidator();
-        $validator->setMin(1);
+        $validator->setMin('1');
 
         $this->doTestValidator($validator, $input, $output);
     }
@@ -61,7 +63,7 @@ class NumberValidatorTest extends AbstractTestCase
     public function testMax(string $input, array $output) : void
     {
         $validator = new NumberValidator();
-        $validator->setMax(1);
+        $validator->setMax('1');
 
         $this->doTestValidator($validator, $input, $output);
     }
@@ -85,7 +87,7 @@ class NumberValidatorTest extends AbstractTestCase
     public function testStep(string $input, array $output) : void
     {
         $validator = new NumberValidator();
-        $validator->setStep(2);
+        $validator->setStep('2');
 
         $this->doTestValidator($validator, $input, $output);
     }
@@ -201,6 +203,6 @@ class NumberValidatorTest extends AbstractTestCase
     public function testSetStepWithNonPositiveNumber() : void
     {
         $validator = new NumberValidator();
-        $validator->setStep(0);
+        $validator->setStep('0');
     }
 }

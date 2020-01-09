@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\Validation\Tests\Internal;
 
 use Brick\Validation\Internal\Luhn;
