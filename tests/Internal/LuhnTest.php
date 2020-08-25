@@ -21,10 +21,10 @@ class LuhnTest extends TestCase
     public function testLuhn(string $number) : void
     {
         $rawNumber = substr($number, 0, -1);
-        $checkDigit = substr($number, -1);
+        $checkDigit = (int) $number[-1];
 
         // Ensure that the check digit is correctly computed.
-        $this->assertEquals($checkDigit, Luhn::getCheckDigit($rawNumber));
+        $this->assertSame($checkDigit, Luhn::getCheckDigit($rawNumber));
 
         // Ensure that the number is valid only with the correct check digit.
         for ($digit = 0; $digit < 10; $digit++) {
