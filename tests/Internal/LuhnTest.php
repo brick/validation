@@ -6,6 +6,7 @@ namespace Brick\Validation\Tests\Internal;
 
 use Brick\Validation\Internal\Luhn;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,16 +33,15 @@ class LuhnTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage The number must be a string of digits
-     */
     public function testGetCheckDigitWithInvalidDigitNumber() : void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The number must be a string of digits');
+
         Luhn::getCheckDigit('invalid_digit_number');
     }
 
-    /**
+    /*
      * @return array
      */
     public function luhnProvider() : array

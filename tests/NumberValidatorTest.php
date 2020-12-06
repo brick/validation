@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\Validation\Tests;
 
 use Brick\Validation\Validator\NumberValidator;
+use InvalidArgumentException;
 
 /**
  * Unit tests for the number validator.
@@ -196,13 +197,13 @@ class NumberValidatorTest extends AbstractTestCase
         $this->doTestValidator($validator, '922337203685477580', ['validator.number.overflow']);
     }
 
-    /**
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage The step must be strictly positive.
-     */
     public function testSetStepWithNonPositiveNumber() : void
     {
         $validator = new NumberValidator();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The step must be strictly positive.');
+
         $validator->setStep('0');
     }
 }

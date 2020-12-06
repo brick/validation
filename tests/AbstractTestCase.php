@@ -51,7 +51,7 @@ abstract class AbstractTestCase extends TestCase
         $result = [];
 
         foreach ($tests as $key => $value) {
-            $result[] = [$key, $value];
+            $result[] = [(string) $key, $value];
         }
 
         return $result;
