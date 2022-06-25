@@ -38,7 +38,7 @@ jobs:
         run: vendor/bin/phpunit
         env:
           USE_PHP_EXTENSIONS: ${{ matrix.use-extensions }}
-        if: ${{ matrix.php-version != '8.0' }}
+        if: ${{ matrix.php-version != '8.1' }}
 
       - name: Run PHPUnit with coverage
         run: |
@@ -46,10 +46,10 @@ jobs:
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           USE_PHP_EXTENSIONS: ${{ matrix.use-extensions }}
-        if: ${{ matrix.php-version == '8.0' }}
+        if: ${{ matrix.php-version == '8.1' }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ matrix.php-version == '8.0' }}
+        if: ${{ matrix.php-version == '8.1' }}
