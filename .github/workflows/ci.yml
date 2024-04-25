@@ -17,13 +17,15 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
+          - "8.2"
+          - "8.3"
         use-extensions:
           - "true"
           - "false"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -38,7 +40,7 @@ jobs:
         run: vendor/bin/phpunit
         env:
           USE_PHP_EXTENSIONS: ${{ matrix.use-extensions }}
-        if: ${{ matrix.php-version != '8.1' }}
+        if: ${{ matrix.php-version != '8.3' }}
 
       - name: Run PHPUnit with coverage
         run: |
@@ -46,10 +48,10 @@ jobs:
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
         env:
           USE_PHP_EXTENSIONS: ${{ matrix.use-extensions }}
-        if: ${{ matrix.php-version == '8.1' }}
+        if: ${{ matrix.php-version == '8.3' }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ matrix.php-version == '8.1' }}
+        if: ${{ matrix.php-version == '8.3' }}
