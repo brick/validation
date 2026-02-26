@@ -5,7 +5,7 @@
 A PHP validation library.
 
 [![Build Status](https://github.com/brick/validation/workflows/CI/badge.svg)](https://github.com/brick/validation/actions)
-[![Coverage Status](https://coveralls.io/repos/github/brick/validation/badge.svg?branch=master)](https://coveralls.io/github/brick/validation?branch=master)
+<a href="https://codecov.io/github/brick/validation"><img src="https://codecov.io/github/brick/validation/graph/badge.svg"></a>
 [![Latest Stable Version](https://poser.pugx.org/brick/validation/v/stable)](https://packagist.org/packages/brick/validation)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
